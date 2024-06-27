@@ -5,7 +5,6 @@ const {
     ping,
     pingAsync,
     coverage,
-    isWindows,
 } = require("../server/util-server"); // Replace with your actual path
 
 jest.mock("tcp-ping"); // Mock tcpp
@@ -98,8 +97,6 @@ describe("ping functions", () => {
     });
 
     it("should cover all branches in ping", async () => {
-        console.log("Coverage:", coverage);
-
         const expectedCoverage = {
             tcping: {
                 success: true, // tcpp.ping success
