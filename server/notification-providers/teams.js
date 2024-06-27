@@ -3,6 +3,19 @@ const axios = require("axios");
 const { setting } = require("../util-server");
 const { DOWN, UP, getMonitorRelativeURL } = require("../../src/util");
 
+var coverage = {
+    statusMessageFactory: {
+        status1: false,
+        status2: false,
+        status3: false,
+    },
+    getStyle: {
+        style1: false,
+        style2: false,
+        style3: false,
+    }
+}
+
 class Teams extends NotificationProvider {
     name = "teams";
 
@@ -14,9 +27,12 @@ class Teams extends NotificationProvider {
      * @returns {string} Status message
      */
     _statusMessageFactory = (status, monitorName, withStatusSymbol) => {
+        coverage.statusMessageFactory.status3 = true;
         if (status === DOWN) {
+            coverage.statusMessageFactory.status1 = true;
             return (withStatusSymbol ? "🔴 " : "") + `[${monitorName}] went down`;
         } else if (status === UP) {
+            coverage.statusMessageFactory.status2 = true;
             return (withStatusSymbol ? "✅ " : "") + `[${monitorName}] is back online`;
         }
         return "Notification";
@@ -28,10 +44,13 @@ class Teams extends NotificationProvider {
      * @returns {string} Selected style for adaptive cards
      */
     _getStyle = (status) => {
+        coverage.getStyle.style3 = true;
         if (status === DOWN) {
+            coverage.getStyle.style1 = true;
             return "attention";
         }
         if (status === UP) {
+            coverage.getStyle.style2 = true;
             return "good";
         }
         return "emphasis";
@@ -237,4 +256,4 @@ class Teams extends NotificationProvider {
     }
 }
 
-module.exports = Teams;
+module.exports = {Teams, coverage};
