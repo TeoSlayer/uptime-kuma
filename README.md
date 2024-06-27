@@ -18,22 +18,6 @@ The existing tool is a custom one and the coverage is 0 because they do end2end
 
 <Show the coverage results provided by the existing tool with a screenshot>
 
-### Your own coverage tool
-
-<The following is supposed to be repeated for each group member>
-
-<Group member name>
-
-<Function 1 name>
-
-<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
-
-<Provide a screenshot of the coverage results output by the instrumentation>
-
-<Function 2 name>
-
-<Provide the same kind of information provided for Function 1>
-
 ## Coverage improvement
 
 The coverage improvements to each branch were 100% by our tool and by their tool was 18.22 branch because of the reason explained from above.
