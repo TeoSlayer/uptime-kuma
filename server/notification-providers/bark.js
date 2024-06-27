@@ -12,8 +12,20 @@ const { default: axios } = require("axios");
 
 // bark is an APN bridge that sends notifications to Apple devices.
 
-const barkNotificationAvatar = "https://github.com/louislam/uptime-kuma/raw/master/public/icon.png";
+const barkNotificationAvatar =
+    "https://github.com/louislam/uptime-kuma/raw/master/public/icon.png";
 const successMessage = "Successes!";
+
+var coverage = {
+    additionalParameters1: false,
+    additionalParameters2: false,
+    additionalParameters3: false,
+    additionalParameters4: false,
+    additionalParameters5: false,
+    checkResult1: false,
+    checkResult2: false,
+    checkResult3: false,
+};
 
 class Bark extends NotificationProvider {
     name = "Bark";
@@ -29,19 +41,42 @@ class Bark extends NotificationProvider {
             barkEndpoint = barkEndpoint.substring(0, barkEndpoint.length - 1);
         }
 
-        if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === UP) {
+        if (
+            msg != null &&
+            heartbeatJSON != null &&
+            heartbeatJSON["status"] === UP
+        ) {
             let title = "UptimeKuma Monitor Up";
-            return await this.postNotification(notification, title, msg, barkEndpoint);
+            return await this.postNotification(
+                notification,
+                title,
+                msg,
+                barkEndpoint
+            );
         }
 
-        if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === DOWN) {
+        if (
+            msg != null &&
+            heartbeatJSON != null &&
+            heartbeatJSON["status"] === DOWN
+        ) {
             let title = "UptimeKuma Monitor Down";
-            return await this.postNotification(notification, title, msg, barkEndpoint);
+            return await this.postNotification(
+                notification,
+                title,
+                msg,
+                barkEndpoint
+            );
         }
 
         if (msg != null) {
             let title = "UptimeKuma Message";
-            return await this.postNotification(notification, title, msg, barkEndpoint);
+            return await this.postNotification(
+                notification,
+                title,
+                msg,
+                barkEndpoint
+            );
         }
     }
 
@@ -55,19 +90,31 @@ class Bark extends NotificationProvider {
         // set icon to uptime kuma icon, 11kb should be fine
         let params = "?icon=" + barkNotificationAvatar;
         // grouping all our notifications
+
+        coverage.additionalParameters1 = true;
         if (notification.barkGroup != null) {
+            coverage.additionalParameters2 = true;
+
             params += "&group=" + notification.barkGroup;
         } else {
+            coverage.additionalParameters3 = true;
+
             // default name
             params += "&group=" + "UptimeKuma";
         }
+
         // picked a sound, this should follow system's mute status when arrival
         if (notification.barkSound != null) {
+            coverage.additionalParameters4 = true;
+
             params += "&sound=" + notification.barkSound;
         } else {
+            coverage.additionalParameters5 = true;
+
             // default sound
             params += "&sound=" + "telegraph";
         }
+
         return params;
     }
 
@@ -78,11 +125,16 @@ class Bark extends NotificationProvider {
      * @throws {Error} The status code is not in range 2xx
      */
     checkResult(result) {
+        coverage.checkResult1 = true;
         if (result.status == null) {
+            coverage.checkResult2 = true;
             throw new Error("Bark notification failed with invalid response!");
         }
         if (result.status < 200 || result.status >= 300) {
-            throw new Error("Bark notification failed with status code " + result.status);
+            coverage.checkResult3 = true;
+            throw new Error(
+                "Bark notification failed with status code " + result.status
+            );
         }
     }
 
@@ -96,12 +148,17 @@ class Bark extends NotificationProvider {
      */
     async postNotification(notification, title, subtitle, endpoint) {
         let result;
-        if (notification.apiVersion === "v1" || notification.apiVersion == null) {
+        if (
+            notification.apiVersion === "v1" ||
+            notification.apiVersion == null
+        ) {
             // url encode title and subtitle
             title = encodeURIComponent(title);
             subtitle = encodeURIComponent(subtitle);
             const params = this.additionalParameters(notification);
-            result = await axios.get(`${endpoint}/${title}/${subtitle}${params}`);
+            result = await axios.get(
+                `${endpoint}/${title}/${subtitle}${params}`
+            );
         } else {
             result = await axios.post(`${endpoint}/push`, {
                 title,
@@ -120,4 +177,4 @@ class Bark extends NotificationProvider {
     }
 }
 
-module.exports = Bark;
+module.exports = { Bark, coverage };
