@@ -1,85 +1,80 @@
-describe("Bark API Test Suite", function () {
-    let expect, sinon, axios, MockAdapter, Bark, mock;
+const axios = require("axios");
+const MockAdapter = require("axios-mock-adapter");
+const {
+    Bark,
+    coverage,
+} = require("../../server/notification-providers/bark.js");
 
-    before(async function () {
-        const chaiModule = await import("chai");
-        expect = chaiModule.expect;
+describe("Bark API Test Suite", () => {
+    let mock;
 
-        sinon = (await import("sinon")).default;
-        axios = (await import("axios")).default;
-        MockAdapter = (await import("axios-mock-adapter")).default;
-        BarkModule = await import(
-            "../../server/notification-providers/bark.js"
-        );
-        Bark = BarkModule.Bark;
-        coverage = BarkModule.coverage;
-
+    beforeAll(() => {
         mock = new MockAdapter(axios);
     });
 
-    after(function () {
+    afterAll(() => {
         if (mock) {
             mock.restore();
         }
     });
 
     // Additional Parameters
-    it("should return additional parameters with all options", function () {
+    it("should return additional parameters with all options", () => {
         const notification = { barkGroup: "TestGroup", barkSound: "TestSound" };
         const barkInstance = new Bark();
         const params = barkInstance.additionalParameters(notification);
 
-        expect(params).to.contain("icon=");
-        expect(params).to.contain("&group=TestGroup");
-        expect(params).to.contain("&sound=TestSound");
+        expect(params).toContain("icon=");
+        expect(params).toContain("&group=TestGroup");
+        expect(params).toContain("&sound=TestSound");
     });
 
-    it("should return additional parameters with default values", function () {
+    it("should return additional parameters with default values", () => {
         const notification = {};
         const barkInstance = new Bark();
         const params = barkInstance.additionalParameters(notification);
 
-        expect(params).to.contain("icon=");
-        expect(params).to.contain("&group=UptimeKuma");
-        expect(params).to.contain("&sound=telegraph");
+        expect(params).toContain("icon=");
+        expect(params).toContain("&group=UptimeKuma");
+        expect(params).toContain("&sound=telegraph");
     });
 
-    it("should return additional parameters with default sound", function () {
+    it("should return additional parameters with default sound", () => {
         const notification = { barkGroup: "TestGroup" };
         const barkInstance = new Bark();
         const params = barkInstance.additionalParameters(notification);
 
-        expect(params).to.contain("icon=");
-        expect(params).to.contain("&group=TestGroup");
-        expect(params).to.contain("&sound=telegraph");
+        expect(params).toContain("icon=");
+        expect(params).toContain("&group=TestGroup");
+        expect(params).toContain("&sound=telegraph");
     });
 
     // Check Result
-    it("should not throw error for valid result", function () {
+    it("should not throw error for valid result", () => {
         const result = { status: 200 };
         const barkInstance = new Bark();
-        expect(() => barkInstance.checkResult(result)).to.not.throw();
+        expect(() => barkInstance.checkResult(result)).not.toThrow();
     });
 
-    it("should throw error for invalid result without status", function () {
+    it("should throw error for invalid result without status", () => {
         const result = {};
         const barkInstance = new Bark();
-        expect(() => barkInstance.checkResult(result)).to.throw(
+        expect(() => barkInstance.checkResult(result)).toThrow(
             "Bark notification failed with invalid response!"
         );
     });
 
-    it("should throw error for invalid result with non-2xx status", function () {
+    it("should throw error for invalid result with non-2xx status", () => {
         const result = { status: 400 };
         const barkInstance = new Bark();
-        expect(() => barkInstance.checkResult(result)).to.throw(
+        expect(() => barkInstance.checkResult(result)).toThrow(
             "Bark notification failed with status code 400"
         );
     });
 
     // Test Branch Coverage
-    it("should cover all branches in bark", function () {
-        var expectedCoverage = {
+    it("should cover all branches in bark", () => {
+        const expectedCoverage = {
             additionalParameters1: true,
             additionalParameters2: true,
             additionalParameters3: true,
@@ -90,6 +85,6 @@ describe("Bark API Test Suite", function () {
             checkResult3: true,
         };
 
-        expect(coverage).deep.equal(expectedCoverage);
+        expect(coverage).toEqual(expectedCoverage);
     });
 });
