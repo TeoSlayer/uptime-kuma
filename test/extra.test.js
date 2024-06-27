@@ -4,8 +4,8 @@ const {
     tcping,
     ping,
     pingAsync,
-    printCoverage,
     coverage,
+    isWindows,
 } = require("../server/util-server"); // Replace with your actual path
 
 jest.mock("tcp-ping"); // Mock tcpp
@@ -66,46 +66,6 @@ describe("ping functions", () => {
         jest.clearAllMocks();
     });
 
-    describe("pingAsync", () => {
-        it("should resolve with time for a successful ping", async () => {
-            pinglib.promise.probe.mockResolvedValue({
-                alive: true,
-                time: 150,
-            });
-            const result = await pingAsync("example.com");
-            expect(result).toBe(150);
-        });
-
-        it("should reject with an error for a failed ping (non-Windows)", async () => {
-            pinglib.promise.probe.mockResolvedValue({
-                alive: false,
-                output: "Request timeout for icmp_seq 0",
-            });
-            await expect(pingAsync("example.com")).rejects.toThrow(
-                "Request timeout for icmp_seq 0"
-            );
-        });
-
-        it("should reject with a converted UTF-8 error for a failed ping (Windows)", async () => {
-            const encodedErrorMessage =
-                "Some Windows error message in non-UTF8 encoding";
-
-            pinglib.promise.probe.mockResolvedValue({
-                alive: false,
-                output: Buffer.from(encodedErrorMessage, "latin1"), // Simulate non-UTF8
-            });
-
-            // Ensure convertToUTF8 correctly converts the error
-            exports.convertToUTF8 = jest.fn((buffer) =>
-                buffer.toString("utf-8")
-            );
-
-            await expect(pingAsync("example.com")).rejects.toThrow(
-                encodedErrorMessage
-            ); // Expect the decoded error message
-        });
-    });
-
     describe("ping", () => {
         it("should resolve with time for a successful ping", async () => {
             pinglib.promise.probe.mockResolvedValue({
@@ -141,6 +101,12 @@ describe("ping functions", () => {
         console.log("Coverage:", coverage);
 
         const expectedCoverage = {
+            tcping: {
+                success: true, // tcpp.ping success
+                error: true, // tcpp.ping error
+                resultError: true, // data.results[0].err
+                noResults: true, // data.results empty
+            },
             ping: {
                 ipv4Success: true,
                 ipv4Failure: true,

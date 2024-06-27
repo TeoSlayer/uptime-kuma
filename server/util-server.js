@@ -21,6 +21,12 @@ const oidc = require("openid-client");
 const tls = require("tls");
 
 var coverage = {
+    tcping: {
+        success: false, // tcpp.ping success
+        error: false, // tcpp.ping error
+        resultError: false, // data.results[0].err
+        noResults: false, // data.results empty
+    },
     ping: {
         ipv4Success: false,
         ipv4Failure: false,
@@ -123,14 +129,18 @@ exports.tcping = function (hostname, port) {
             },
             function (err, data) {
                 if (err) {
+                    coverage.tcping.error = true;
                     reject(err);
-                }
-
-                if (data.results.length >= 1 && data.results[0].err) {
+                } else if (data.results.length >= 1 && data.results[0].err) {
+                    coverage.tcping.resultError = true;
                     reject(data.results[0].err);
+                } else if (data.results.length === 0) {
+                    coverage.tcping.noResults = true;
+                    resolve(0); // Or another default value based on your logic
+                } else {
+                    coverage.tcping.success = true;
+                    resolve(Math.round(data.max));
                 }
-
-                resolve(Math.round(data.max));
             }
         );
     });
