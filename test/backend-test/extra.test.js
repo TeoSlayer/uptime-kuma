@@ -5,7 +5,7 @@ const {
     ping,
     pingAsync,
     coverage,
-} = require("../server/util-server"); // Replace with your actual path
+} = require("../../server/util-server"); // Replace with your actual path
 
 jest.mock("tcp-ping"); // Mock tcpp
 jest.mock("@louislam/ping"); // Mock the ping module
