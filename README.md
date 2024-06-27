@@ -1,3 +1,4 @@
+[![Auto Test](https://github.com/TeoSlayer/uptime-kuma/actions/workflows/auto-test.yml/badge.svg)](https://github.com/TeoSlayer/uptime-kuma/actions/workflows/auto-test.yml)
 <div align="center" width="100%">
     <img src="./public/icon.svg" width="128" alt="" />
 </div>
