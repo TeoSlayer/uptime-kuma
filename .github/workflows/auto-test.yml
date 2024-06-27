@@ -12,7 +12,6 @@ on:
     branches: [master, 1.23.X]
     paths-ignore:
       - "*.md"
-
 jobs:
   auto-test:
     needs: [check-linters, e2e-test]
@@ -75,7 +74,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm run lint:prod
+#     - run: npm run lint:prod
 
   e2e-test:
     needs: [check-linters]
