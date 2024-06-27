@@ -1,196 +1,101 @@
-[![Auto Test](https://github.com/TeoSlayer/uptime-kuma/actions/workflows/auto-test.yml/badge.svg)](https://github.com/TeoSlayer/uptime-kuma/actions/workflows/auto-test.yml)
-<div align="center" width="100%">
-    <img src="./public/icon.svg" width="128" alt="" />
-</div>
+# Report for Assignment 1
 
-# Uptime Kuma
+## Project chosen
 
-Uptime Kuma is an easy-to-use self-hosted monitoring tool.
+Name: uptime-kuma
 
-<a target="_blank" href="https://github.com/louislam/uptime-kuma"><img src="https://img.shields.io/github/stars/louislam/uptime-kuma?style=flat" /></a> <a target="_blank" href="https://hub.docker.com/r/louislam/uptime-kuma"><img src="https://img.shields.io/docker/pulls/louislam/uptime-kuma" /></a> <a target="_blank" href="https://hub.docker.com/r/louislam/uptime-kuma"><img src="https://img.shields.io/docker/v/louislam/uptime-kuma/latest?label=docker%20image%20ver." /></a> <a target="_blank" href="https://github.com/louislam/uptime-kuma"><img src="https://img.shields.io/github/last-commit/louislam/uptime-kuma" /></a>  <a target="_blank" href="https://opencollective.com/uptime-kuma"><img src="https://opencollective.com/uptime-kuma/total/badge.svg?label=Open%20Collective%20Backers&color=brightgreen" /></a>
-[![GitHub Sponsors](https://img.shields.io/github/sponsors/louislam?label=GitHub%20Sponsors)](https://github.com/sponsors/louislam) <a href="https://weblate.kuma.pet/projects/uptime-kuma/uptime-kuma/">
-<img src="https://weblate.kuma.pet/widgets/uptime-kuma/-/svg-badge.svg" alt="Translation status" />
-</a>
+URL: https://github.com/TeoSlayer/uptime-kuma
 
-<img src="https://user-images.githubusercontent.com/1336778/212262296-e6205815-ad62-488c-83ec-a5b0d0689f7c.jpg" width="700" alt="" />
+Number of lines of code and the tool used to count it: 98k, cloc
 
-## 🥔 Live Demo
+Programming language: JS
 
-Try it!
+## Coverage measurement
 
-Demo Server (Location: Frankfurt - Germany): https://demo.kuma.pet/start-demo
+### Existing tool
 
-It is a temporary live demo, all data will be deleted after 10 minutes. Sponsored by [Uptime Kuma Sponsors](https://github.com/louislam/uptime-kuma#%EF%B8%8F-sponsors).
+The existing tool is a custom one and the coverage is 0 because they do end2end
 
-## ⭐ Features
+<Show the coverage results provided by the existing tool with a screenshot>
 
-- Monitoring uptime for HTTP(s) / TCP / HTTP(s) Keyword / HTTP(s) Json Query / Ping / DNS Record / Push / Steam Game Server / Docker Containers
-- Fancy, Reactive, Fast UI/UX
-- Notifications via Telegram, Discord, Gotify, Slack, Pushover, Email (SMTP), and [90+ notification services, click here for the full list](https://github.com/louislam/uptime-kuma/tree/master/src/components/notifications)
-- 20-second intervals
-- [Multi Languages](https://github.com/louislam/uptime-kuma/tree/master/src/lang)
-- Multiple status pages
-- Map status pages to specific domains
-- Ping chart
-- Certificate info
-- Proxy support
-- 2FA support
+### Your own coverage tool
 
-## 🔧 How to Install
+<The following is supposed to be repeated for each group member>
 
-### 🐳 Docker
+<Group member name>
 
-```bash
-docker run -d --restart=always -p 3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
-```
+<Function 1 name>
 
-Uptime Kuma is now running on <http://0.0.0.0:3001>.
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements>
 
-> [!WARNING]
-> File Systems like **NFS** (Network File System) are **NOT** supported. Please map to a local directory or volume.
+<Provide a screenshot of the coverage results output by the instrumentation>
 
-> [!NOTE]
-> If you want to limit exposure to localhost (without exposing port for other users or to use a [reverse proxy](https://github.com/louislam/uptime-kuma/wiki/Reverse-Proxy)), you can expose the port like this:
-> 
-> ```bash
-> docker run -d --restart=always -p 127.0.0.1:3001:3001 -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
-> ```
+<Function 2 name>
 
-### 💪🏻 Non-Docker
+<Provide the same kind of information provided for Function 1>
 
-Requirements:
+## Coverage improvement
 
-- Platform
-  - ✅ Major Linux distros such as Debian, Ubuntu, CentOS, Fedora and ArchLinux etc.
-  - ✅ Windows 10 (x64), Windows Server 2012 R2 (x64) or higher
-  - ❌ Replit / Heroku
-- [Node.js](https://nodejs.org/en/download/) 18 / 20.4
-- [npm](https://docs.npmjs.com/cli/) 9
-- [Git](https://git-scm.com/downloads)
-- [pm2](https://pm2.keymetrics.io/) - For running Uptime Kuma in the background
+The coverage improvements to each branch were 100% by our tool and by their tool was 18.22 branch because of the reason explained from above.
 
-```bash
-git clone https://github.com/louislam/uptime-kuma.git
-cd uptime-kuma
-npm run setup
+### Individual tests
 
-# Option 1. Try it
-node server/server.js
+<The following is supposed to be repeated for each group member>
 
-# (Recommended) Option 2. Run in the background using PM2
-# Install PM2 if you don't have it:
-npm install pm2 -g && pm2 install pm2-logrotate
+<Group member name>
 
-# Start Server
-pm2 start server/server.js --name uptime-kuma
-```
+### Test 1: Bark File
 
-Uptime Kuma is now running on http://localhost:3001
+-   **Test Results**:  
+    ![Bark Test Results](/images/bark-test.jpg "Bark Test Results")
 
-More useful PM2 Commands
+-   **New Coverage Results**:  
+    ![Bark Coverage Results](/images/bark-cov.jpg "Bark Coverage Results")
 
-```bash
-# If you want to see the current console output
-pm2 monit
+### Test 2: Wecom File
 
-# If you want to add it to startup
-pm2 save && pm2 startup
-```
+-   **Test Results**:  
+    ![Wecom Test Results](/images/wecom-test.jpg "Wecom Test Results")
 
-### Advanced Installation
+-   **New Coverage Results**:  
+    ![Wecom Coverage Results](/images/wecom-cov.jpg "Wecom Coverage Results")
 
-If you need more options or need to browse via a reverse proxy, please read:
+### Test 3: Teams File
 
-https://github.com/louislam/uptime-kuma/wiki/%F0%9F%94%A7-How-to-Install
+-   **Test Results**:  
+    ![Teams Test Results](/images/teams-test.jpg "Teams Test Results")
 
-## 🆙 How to Update
+-   **New Coverage Results**:  
+    ![Teams Coverage Results](/images/teams-cov.jpg "Teams Coverage Results")
 
-Please read:
+### Test 4: Extra File
 
-https://github.com/louislam/uptime-kuma/wiki/%F0%9F%86%99-How-to-Update
+-   **Extra Results**:  
+    ![Extra Coverage Before Update](/images/extra-test.jpg "Extra Coverage Before")
 
-## 🆕 What's Next?
+-   **Extra Coverage Results**:  
+    ![Extra Coverage After Update](/images/extra-cov.jpg "Extra Coverage After")
 
-I will assign requests/issues to the next milestone.
+### All tests
 
-https://github.com/louislam/uptime-kuma/milestones
+![All tests](/images/tests-all.jpg "All tests")
 
-## ❤️ Sponsors
+### Overall
 
-Thank you so much! (GitHub Sponsors will be updated manually. OpenCollective sponsors will be updated automatically, the list will be cached by GitHub though. It may need some time to be updated)
+![Coverage Results Before Update](/images/before.jpg "Coverage Results Before")
 
-<img src="https://uptime.kuma.pet/sponsors?v=6" alt />
+_Figure 1: Coverage results before the update_
 
-## 🖼 More Screenshots
+![Coverage Results After Update](/images/after.jpg "Coverage Results After")
 
-Light Mode:
+_Figure 2: Coverage results after the update_
 
-<img src="https://uptime.kuma.pet/img/light.jpg" width="512" alt="" />
+## Statement of individual contributions
 
-Status Page:
+Traian: I did the tests for the bark file.
 
-<img src="https://user-images.githubusercontent.com/1336778/134628766-a3fe0981-0926-4285-ab46-891a21c3e4cb.png" width="512" alt="" />
+Maxime: I did the tests from Teams.js for the getStyle and statusMessageFactory functions
 
-Settings Page:
+Teo: I did the tests for util-server.js
 
-<img src="https://louislam.net/uptimekuma/2.jpg" width="400" alt="" />
-
-Telegram Notification Sample:
-
-<img src="https://louislam.net/uptimekuma/3.jpg" width="400" alt="" />
-
-## Motivation
-
-- I was looking for a self-hosted monitoring tool like "Uptime Robot", but it is hard to find a suitable one. One of the closest ones is statping. Unfortunately, it is not stable and no longer maintained.
-- Wanted to build a fancy UI.
-- Learn Vue 3 and vite.js.
-- Show the power of Bootstrap 5.
-- Try to use WebSocket with SPA instead of a REST API.
-- Deploy my first Docker image to Docker Hub.
-
-If you love this project, please consider giving it a ⭐.
-
-## 🗣️ Discussion / Ask for Help
-
-⚠️ For any general or technical questions, please don't send me an email, as I am unable to provide support in that manner. I will not respond if you ask questions there.
-
-I recommend using Google, GitHub Issues, or Uptime Kuma's subreddit for finding answers to your question. If you cannot find the information you need, feel free to ask:
-
-- [GitHub Issues](https://github.com/louislam/uptime-kuma/issues)
-- [Subreddit (r/UptimeKuma)](https://www.reddit.com/r/UptimeKuma/)
-
-My Reddit account: [u/louislamlam](https://reddit.com/u/louislamlam)
-You can mention me if you ask a question on the subreddit.
-
-## Contributions
-
-### Create Pull Requests
-
-We DO NOT accept all types of pull requests and do not want to waste your time. Please be sure that you have read and follow pull request rules:
-[CONTRIBUTING.md#can-i-create-a-pull-request-for-uptime-kuma](https://github.com/louislam/uptime-kuma/blob/master/CONTRIBUTING.md#can-i-create-a-pull-request-for-uptime-kuma)
-
-### Test Pull Requests
-
-There are a lot of pull requests right now, but I don't have time to test them all.
-
-If you want to help, you can check this:
-https://github.com/louislam/uptime-kuma/wiki/Test-Pull-Requests
-
-### Test Beta Version
-
-Check out the latest beta release here: https://github.com/louislam/uptime-kuma/releases
-
-### Bug Reports / Feature Requests
-
-If you want to report a bug or request a new feature, feel free to open a [new issue](https://github.com/louislam/uptime-kuma/issues).
-
-### Translations
-
-If you want to translate Uptime Kuma into your language, please visit [Weblate Readme](https://github.com/louislam/uptime-kuma/blob/master/src/lang/README.md).
-
-### Spelling & Grammar
-
-Feel free to correct the grammar in the documentation or code.
-My mother language is not English and my grammar is not that great.
-
-
+Nicu: I did the tests for wecom.js and teams.js, the function \_notificationPayloadFactory
