@@ -2,6 +2,14 @@ const NotificationProvider = require("./notification-provider");
 const axios = require("axios");
 const { DOWN, UP } = require("../../src/util");
 
+var coverage = {
+    composeMessage1: false,
+    composeMessage2: false,
+    composeMessage3: false,
+    composeMessage4: false,
+    composeMessage5: false,
+};
+
 class WeCom extends NotificationProvider {
     name = "WeCom";
 
@@ -14,11 +22,15 @@ class WeCom extends NotificationProvider {
         try {
             let config = {
                 headers: {
-                    "Content-Type": "application/json"
-                }
+                    "Content-Type": "application/json",
+                },
             };
             let body = this.composeMessage(heartbeatJSON, msg);
-            await axios.post(`https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${notification.weComBotKey}`, body, config);
+            await axios.post(
+                `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${notification.weComBotKey}`,
+                body,
+                config
+            );
             return okMsg;
         } catch (error) {
             this.throwGeneralAxiosError(error);
@@ -32,23 +44,42 @@ class WeCom extends NotificationProvider {
      * @returns {object} Message
      */
     composeMessage(heartbeatJSON, msg) {
+        coverage.composeMessage1 = true;
+
         let title;
-        if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === UP) {
+        if (
+            msg != null &&
+            heartbeatJSON != null &&
+            heartbeatJSON["status"] === UP
+        ) {
+            coverage.composeMessage2 = true;
+
             title = "UptimeKuma Monitor Up";
-        }
-        if (msg != null && heartbeatJSON != null && heartbeatJSON["status"] === DOWN) {
+        } else if (
+            msg != null &&
+            heartbeatJSON != null &&
+            heartbeatJSON["status"] === DOWN
+        ) {
+            coverage.composeMessage3 = true;
+
             title = "UptimeKuma Monitor Down";
-        }
-        if (msg != null) {
+        } else if (msg != null) {
+            coverage.composeMessage4 = true;
+
             title = "UptimeKuma Message";
+        } else {
+            coverage.composeMessage5 = true;
+
+            title = "UptimeKuma Error: ";
+            msg = "Unknown message";
         }
         return {
             msgtype: "text",
             text: {
-                content: title + msg
-            }
+                content: title + msg,
+            },
         };
     }
 }
 
-module.exports = WeCom;
+module.exports = { WeCom, coverage };

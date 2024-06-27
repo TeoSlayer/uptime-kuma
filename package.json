@@ -25,7 +25,7 @@
         "start-server-dev": "cross-env NODE_ENV=development node server/server.js",
         "start-server-dev:watch": "cross-env NODE_ENV=development node --watch server/server.js",
         "build": "vite build --config ./config/vite.config.js",
-        "jest": "npx jest test/backend-test/extra.test.js test/backend-test/bark.test.js",
+        "jest": "npx jest test/backend-test/extra.test.js test/backend-test/bark.test.js test/backend-test/teams.test.js test/backend-test/wecom.test.js",
         "test": "npm run test-backend && npm run test-e2e",
         "test-with-build": "npm run build && npm test",
         "test-backend": "node test/backend-test-entry.js",
