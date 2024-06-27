@@ -74,7 +74,8 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-#     - run: npm run lint:prod
+      - run: npm run jest
+  #     - run: npm run lint:prod
 
   e2e-test:
     needs: [check-linters]
