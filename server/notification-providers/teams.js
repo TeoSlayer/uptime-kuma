@@ -13,8 +13,23 @@ var coverage = {
         style1: false,
         style2: false,
         style3: false,
-    }
-}
+    },
+};
+
+var ncoverage = {
+    notificationPayloadFactory1: false,
+    notificationPayloadFactory2: false,
+    notificationPayloadFactory3: false,
+    notificationPayloadFactory4: false,
+    notificationPayloadFactory5: false,
+    notificationPayloadFactory6: false,
+    notificationPayloadFactory7: false,
+    notificationPayloadFactory8: false,
+    notificationPayloadFactory9: false,
+    notificationPayloadFactory10: false,
+    notificationPayloadFactory11: false,
+    notificationPayloadFactory12: false,
+};
 
 class Teams extends NotificationProvider {
     name = "teams";
@@ -30,10 +45,15 @@ class Teams extends NotificationProvider {
         coverage.statusMessageFactory.status3 = true;
         if (status === DOWN) {
             coverage.statusMessageFactory.status1 = true;
-            return (withStatusSymbol ? "🔴 " : "") + `[${monitorName}] went down`;
+            return (
+                (withStatusSymbol ? "🔴 " : "") + `[${monitorName}] went down`
+            );
         } else if (status === UP) {
             coverage.statusMessageFactory.status2 = true;
-            return (withStatusSymbol ? "✅ " : "") + `[${monitorName}] is back online`;
+            return (
+                (withStatusSymbol ? "✅ " : "") +
+                `[${monitorName}] is back online`
+            );
         }
         return "Notification";
     };
@@ -75,122 +95,157 @@ class Teams extends NotificationProvider {
         const facts = [];
         const actions = [];
 
+        ncoverage.notificationPayloadFactory1 = true;
+
         if (dashboardUrl) {
+            ncoverage.notificationPayloadFactory2 = true;
+
             actions.push({
-                "type": "Action.OpenUrl",
-                "title": "Visit Uptime Kuma",
-                "url": dashboardUrl
+                type: "Action.OpenUrl",
+                title: "Visit Uptime Kuma",
+                url: dashboardUrl,
             });
+        } else {
+            ncoverage.notificationPayloadFactory3 = true;
         }
 
         if (heartbeatJSON?.msg) {
+            ncoverage.notificationPayloadFactory4 = true;
+
             facts.push({
                 title: "Description",
                 value: heartbeatJSON.msg,
             });
+        } else {
+            ncoverage.notificationPayloadFactory5 = true;
         }
 
         if (monitorName) {
+            ncoverage.notificationPayloadFactory6 = true;
+
             facts.push({
                 title: "Monitor",
                 value: monitorName,
             });
+        } else {
+            ncoverage.notificationPayloadFactory7 = true;
         }
 
         if (monitorUrl && monitorUrl !== "https://") {
+            ncoverage.notificationPayloadFactory8 = true;
+
             facts.push({
                 title: "URL",
                 // format URL as markdown syntax, to be clickable
                 value: `[${monitorUrl}](${monitorUrl})`,
             });
             actions.push({
-                "type": "Action.OpenUrl",
-                "title": "Visit Monitor URL",
-                "url": monitorUrl
+                type: "Action.OpenUrl",
+                title: "Visit Monitor URL",
+                url: monitorUrl,
             });
+        } else {
+            ncoverage.notificationPayloadFactory9 = true;
         }
 
         if (heartbeatJSON?.localDateTime) {
+            ncoverage.notificationPayloadFactory10 = true;
+
             facts.push({
                 title: "Time",
-                value: heartbeatJSON.localDateTime + (heartbeatJSON.timezone ? ` (${heartbeatJSON.timezone})` : ""),
+                value:
+                    heartbeatJSON.localDateTime +
+                    (heartbeatJSON.timezone
+                        ? ` (${heartbeatJSON.timezone})`
+                        : ""),
             });
+        } else {
+            ncoverage.notificationPayloadFactory11 = true;
         }
 
         const payload = {
-            "type": "message",
+            type: "message",
             // message with status prefix as notification text
-            "summary": this._statusMessageFactory(status, monitorName, true),
-            "attachments": [
+            summary: this._statusMessageFactory(status, monitorName, true),
+            attachments: [
                 {
-                    "contentType": "application/vnd.microsoft.card.adaptive",
-                    "contentUrl": "",
-                    "content": {
-                        "type": "AdaptiveCard",
-                        "body": [
+                    contentType: "application/vnd.microsoft.card.adaptive",
+                    contentUrl: "",
+                    content: {
+                        type: "AdaptiveCard",
+                        body: [
                             {
-                                "type": "Container",
-                                "verticalContentAlignment": "Center",
-                                "items": [
+                                type: "Container",
+                                verticalContentAlignment: "Center",
+                                items: [
                                     {
-                                        "type": "ColumnSet",
-                                        "style": this._getStyle(status),
-                                        "columns": [
+                                        type: "ColumnSet",
+                                        style: this._getStyle(status),
+                                        columns: [
                                             {
-                                                "type": "Column",
-                                                "width": "auto",
-                                                "verticalContentAlignment": "Center",
-                                                "items": [
+                                                type: "Column",
+                                                width: "auto",
+                                                verticalContentAlignment:
+                                                    "Center",
+                                                items: [
                                                     {
-                                                        "type": "Image",
-                                                        "width": "32px",
-                                                        "style": "Person",
-                                                        "url": "https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.png",
-                                                        "altText": "Uptime Kuma Logo"
-                                                    }
-                                                ]
+                                                        type: "Image",
+                                                        width: "32px",
+                                                        style: "Person",
+                                                        url: "https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.png",
+                                                        altText:
+                                                            "Uptime Kuma Logo",
+                                                    },
+                                                ],
                                             },
                                             {
-                                                "type": "Column",
-                                                "width": "stretch",
-                                                "items": [
+                                                type: "Column",
+                                                width: "stretch",
+                                                items: [
                                                     {
-                                                        "type": "TextBlock",
-                                                        "size": "Medium",
-                                                        "weight": "Bolder",
-                                                        "text": `**${this._statusMessageFactory(status, monitorName, false)}**`,
+                                                        type: "TextBlock",
+                                                        size: "Medium",
+                                                        weight: "Bolder",
+                                                        text: `**${this._statusMessageFactory(
+                                                            status,
+                                                            monitorName,
+                                                            false
+                                                        )}**`,
                                                     },
                                                     {
-                                                        "type": "TextBlock",
-                                                        "size": "Small",
-                                                        "weight": "Default",
-                                                        "text": "Uptime Kuma Alert",
-                                                        "isSubtle": true,
-                                                        "spacing": "None"
-                                                    }
-                                                ]
-                                            }
-                                        ]
-                                    }
-                                ]
+                                                        type: "TextBlock",
+                                                        size: "Small",
+                                                        weight: "Default",
+                                                        text: "Uptime Kuma Alert",
+                                                        isSubtle: true,
+                                                        spacing: "None",
+                                                    },
+                                                ],
+                                            },
+                                        ],
+                                    },
+                                ],
                             },
                             {
-                                "type": "FactSet",
-                                "separator": false,
-                                "facts": facts
-                            }
+                                type: "FactSet",
+                                separator: false,
+                                facts: facts,
+                            },
                         ],
-                        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-                        "version": "1.5"
-                    }
-                }
-            ]
+                        $schema:
+                            "http://adaptivecards.io/schemas/adaptive-card.json",
+                        version: "1.5",
+                    },
+                },
+            ],
         };
 
         if (actions) {
+            ncoverage.notificationPayloadFactory12 = true;
+
             payload.attachments[0].content.body.push({
-                "type": "ActionSet",
-                "actions": actions,
+                type: "ActionSet",
+                actions: actions,
             });
         }
 
@@ -216,8 +271,8 @@ class Teams extends NotificationProvider {
     _handleGeneralNotification = (webhookUrl, msg) => {
         const payload = this._notificationPayloadFactory({
             heartbeatJSON: {
-                msg: msg
-            }
+                msg: msg,
+            },
         });
 
         return this._sendNotification(webhookUrl, payload);
@@ -231,7 +286,10 @@ class Teams extends NotificationProvider {
 
         try {
             if (heartbeatJSON == null) {
-                await this._handleGeneralNotification(notification.webhookUrl, msg);
+                await this._handleGeneralNotification(
+                    notification.webhookUrl,
+                    msg
+                );
                 return okMsg;
             }
 
@@ -256,4 +314,4 @@ class Teams extends NotificationProvider {
     }
 }
 
-module.exports = {Teams, coverage};
+module.exports = { Teams, coverage, ncoverage };
